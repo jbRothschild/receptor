@@ -1,0 +1,43 @@
+\subsection{\label{sec:mode1and2}Mode 1 \& 2}
+
+Combining both modes we can construct a model where binding releases a GPCR product $m$ from the receptor and starts producing some other product, $n$.
+
+(Need to make the figure for this)
+
+The master equations are
+
+\begin{equation}
+\begin{aligned}
+ \dot{P_0^{n,m}} &= k_{off}P_1^{n,m} - k_{on}cP_0^{n,m} \\
+ \dot{P_1^{n,m}} &= k_{on}cP_0^{n,m-1} - k_{off}P_1^{n,m} + k_pP_1^{n-1,m} - k_pP_1^{n,m}.
+\end{aligned}
+\end{equation}
+
+What we are interested in this equation is the now average and variance of proucts $n$ and $m$ within the cell as we can find what the best estimate the cell can make of the ligand concentration outside. From the master equation approach
+
+\begin{equation*}
+\begin{aligned}
+\dot{ \langle n \rangle } & = \sum_{n,m=0} n (\dot{P_0^{n,m}} + \dot{P_1^{n,m}})\\
+                          & = \sum_{n,m=0} n (k_pP_1^{n-1,m} - k_pP_1^{n,m} + k_{on}cP_0^{n,m-1} - k_{on}cP_0^{n,m})\\
+                          & = k_p \sum_{n,m=0} n (P_1^{n-1,m} - P_1^{n,m})\\
+                          & = k_p \sum_{n,m=0} P_1^{n}\\
+                          & = k_p P_1(t).
+\end{aligned}
+\end{equation*}
+
+We can relabel all $m$ in step 3 as this sum over $m$ goes from $0$ to infinity and is non-sensical for $m=0$ given that $P_1^{n,-1}=0$. Note that we find that the $\langle n \rangle$ is exactly the same form for our calculation of $\langle n \rangle$ of mode 1 (equation X). The same goes for $\langle n^2 \rangle$, $\langle m \rangle$ and $\langle m^2 \rangle$ derived in previous sections.
+
+The correlation $\langle nm \rangle$ is less straightforward. We can write
+
+\begin{equation*}
+\begin{aligned}
+\dot{ \langle nm \rangle } & = \sum_{n,m=0} nm (\dot{P_0^{n,m}} + \dot{P_1^{n,m}})\\
+                          & = \sum_{n,m=0} nm (k_pP_1^{n-1,m} - k_pP_1^{n,m} + k_{on}cP_0^{n,m-1} - k_{on}cP_0^{n,m})\\
+                          & = \sum_{n,m=0} k_p m ((n+1)P_1^{n,m} - k_pP_1^{n,m})\\
+                          & \qquad + k_{on} nc((m+1)P_0^{n,m} - P_0^{n,m})\\
+                          & = \sum_{n,m=0} m k_p P_1^{n,m}  + n k_{on}cP_0^{n,m-1}.
+                         .
+\end{aligned}
+\end{equation*}
+
+Where do we go from here? Event less obvious is how to get $Var(nm)$ as this will give even more terms

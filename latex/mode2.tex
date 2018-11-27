@@ -1,0 +1,94 @@
+\subsection{\label{sec:mode2}Mode 2}
+
+Next, we investigate the process that releases a GPCR product $m$ upon ligand binding to the receptor. Similar to mode 1, the ligand binds with rate $k_{on}c$ and unbinds with rate $k_off$ to the receptor.
+
+(Need to make the figure for this)
+
+The master equations are
+
+\begin{equation}
+\begin{aligned}
+ \dot{P_0^m} &= k_{off}P_1^m - k_{on}cP_0^m \\
+ \dot{P_1^m} &= k_{on}cP_0^{m-1} - k_{off}P_1^m.
+\end{aligned}
+\end{equation}
+
+Again, what we are interested in this equation is the average and variance of the prouct $m$ within the cell as we can find what the best estimate the cell can make of the ligand concentration outside. We will later investigate the best estimate for $k_off$.
+
+For now, we will continue along the same derivation of $\langle m \rangle$ and $\langle m^2 \rangle$ as before. Note that we will use the solution for the probability of being bound as a function of time, equation 2, but with the variation
+
+\begin{equation}
+P_0(t) = \frac{1}{1+x} - \Delta e^{-rt}
+\end{equation}
+
+where
+
+\begin{equation*}
+\Delta_0 = - \Delta_1 = P_0(0) - P_0^{ss}.
+\end{equation*}
+
+We write down the time derivative of average $m$ and replace terms by the master equations to solve the equation
+
+\begin{equation*}
+\begin{aligned}
+\dot{ \langle m \rangle } & = \sum_{n=0} n (\dot{P_0^m} + \dot{P_1^m})\\
+                          & = k_{on}c \sum_{n=0} n (P_0^{m-1} - \dot{P_0^m})\\
+                          & = k_{on}c \sum_{n=0} P_0^{m}\\
+                          & = k_{on}c P_0(t).
+\end{aligned}
+\end{equation*}
+
+Replacing our expression in equation 2 in this formula, we integrate to get the solution
+
+\begin{equation}
+\langle m \rangle = k_{on}c \frac{1}{1+x}t + m_0 - \frac{k_{on}c \Delta_0}{r}(1-e^{-rt}).
+\end{equation}
+
+Assuming that the initial product number $m_0=0$ and that the initial probability of being unbound is the same as steady state $\Delta_0 = P_0(0) - P_0^{ss} = 0$ we find
+
+\begin{equation*}
+\begin{aligned}
+\langle m \rangle & = k_{on}c \frac{1}{1+x}t\\
+	& = k_{off} \frac{x}{1+x}t
+\end{aligned}
+\end{equation*}
+
+since $x=k_{on}c/k_{off}$. For the variance, as similar approach can be taken
+
+\begin{equation*}
+\begin{aligned}
+\dot{ \langle m^2 \rangle } & = \sum_{m=0} m^2 (\dot{P_0^m} + \dot{P_1^m})\\
+                          & = k_{on}c \sum_{n=0} m^2 (P_0^{m-1} - P_0^m)\\
+                          & = k_{on}c \sum_{m=0} (m+1)^2 (P_0^{m} - m^2 P_0^m)\\
+                          & = k_{on}c \sum_{m=0} (2m+1)P_0^{m}\\
+                          & = k_{on}c (2 \sum_{m=0}mP_1^{m} + \sum_{n=0}P_0^{n})\\
+                          & = k_{on}c (2 \langle m \rangle + P_0(t))
+\end{aligned}
+\end{equation*}
+
+By using the expression for $\langle m \rangle$ in equation 3 we can integrate this obtain $\langle m^2 \rangle$
+
+\begin{equation}
+\begin{aligned}
+\langle m^2 \rangle & = k_{on}c k_{off} \frac{x}{1+x}t^2 + 2k_{on}c m_0t - 2\frac{k_{on}c \Delta_0}{r^2}(rt+e^{-rt})\\ 
+ & \qquad + \langle m \rangle.
+\end{aligned}
+\end{equation}
+
+It is straightforward at this point to combine equations 3 and 4 to obtain the variance
+
+\begin{equation}
+\begin{aligned}
+Var(m) & = \langle m^2 \rangle - {\langle m \rangle}^2\\
+	   & = k_{on}c k_{off} \frac{x}{1+x}t^2 + 2 k_{on}c m_0t - \\ 
+	   & \qquad \frac{(k_{on} c)^2 \Delta_0}{r^2}(rt+e^{-rt}) + \langle m \rangle - {\langle m \rangle}^2.
+\end{aligned}
+\end{equation}
+
+Assuming $m_0=0$ and $\Delta_0 = P_0(0) - P_0^{ss} = 0$ gives us
+
+\begin{equation}
+\begin{aligned}
+Var(m) = k_{on}c k_{off} \frac{x}{1+x}t^2 + k_{off}\frac{x}{1+x}t - {k_{off}}^2\frac{x^2}{(1+x)^2}t^2
+\end{aligned}
+\end{equation}

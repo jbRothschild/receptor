@@ -8,9 +8,9 @@ The master equations are
 
 \begin{equation}
 \begin{aligned}
- \dot{P_0^n} &= k_{on}cP_1^n -k_{off}P_0^n \\
- \dot{P_0^n} &= k_{off}P_1^n -k_{on}cP_1^n + k_pP_1^{n-1} - k_pP_1^{n}\\
-\end{aligned}.
+ \dot{P_0^n} &= k_{off}P_1^n -k_{on}cP_0^n \\
+ \dot{P_1^n} &= k_{on}cP_0^n -k_{off}P_1^n + k_pP_1^{n-1} - k_pP_1^{n}.
+\end{aligned}
 \end{equation}
 
 What we are interested in this equation is the average and variance of the prouct $n$ within the cell as we can find what the best estimate the cell can make of the ligand concentration outside. Anton also argues that a second quantity is important, the cell needs to also estimate $k_{off}$ to know what is the identity of this ligand. There are a couple ways to solve this system: generating functions is one venue but is difficult to solve analytically. Using this method, Anton gets a certain average and standard deviation
@@ -19,8 +19,8 @@ Instead, we will try another method using the master equation. Note that we will
 
 \begin{equation}
 \begin{aligned}
-P_1(t) & =  P_1^{ss}(1-\frac{k_{on}c}{r}e^{-rt}) + P_1(0)e^{-rt}\\
-	   & = \frac{x}{1+x} + \Delta e^{-rt}
+P_1(t) & =  P_1^{ss}(1-e^{-rt}) + P_1(0)e^{-rt}\\
+	   & = \frac{x}{1+x} + \Delta_1 e^{-rt}
 \end{aligned}
 \end{equation}
 
@@ -30,7 +30,7 @@ where
 \begin{aligned}
 P^{ss} & = \frac{x}{1+x}\\
 r & = k_{on}c + k_{off}\\
-\Delta & = P_1(0) - P_1^{ss}.
+\Delta_1 & = P_1(0) - P_1^{ss}.
 \end{aligned}
 \end{equation*}
 
@@ -39,8 +39,8 @@ We write down the time derivative of average $n$ and replace terms by the master
 \begin{equation*}
 \begin{aligned}
 \dot{ \langle n \rangle } & = \sum_{n=0} n (\dot{P_0^n} + \dot{P_1^n})\\
-                          & = k_p \sum_{n=0} n (P_1^{n-1} - \dot{P_1^n})\\
-                          & = k_p \sum_{n=0} (P_1^{n}\\
+                          & = k_p \sum_{n=0} n (P_1^{n-1} - P_1^n)\\
+                          & = k_p \sum_{n=0} P_1^{n}\\
                           & = k_p P_1(t).
 \end{aligned}
 \end{equation*}
@@ -48,7 +48,7 @@ We write down the time derivative of average $n$ and replace terms by the master
 Replacing our expression in equation 2 in this formula, we integrate to get the solution
 
 \begin{equation}
-\langle n \rangle = k_p \frac{x}{1+x}t + n_0 + \frac{k_p \Delta}{r}(1-e^{-rt}).
+\langle n \rangle = k_p \frac{x}{1+x}t + n_0 + \frac{k_p \Delta_1}{r}(1-e^{-rt}).
 \end{equation}
 
 Assuming that the initial product number $n_0=0$ and that the initial probability of being bound is the same as steady state $\Delta = P_1(0) - P_1^{ss} = 0$ we find
@@ -63,18 +63,18 @@ For the variance, as similar approach can be taken
 \begin{aligned}
 \dot{ \langle n^2 \rangle } & = \sum_{n=0} n^2 (\dot{P_0^n} + \dot{P_1^n})\\
                           & = k_p \sum_{n=0} n^2 (P_1^{n-1} - P_1^n)\\
-                          & = k_p \sum_{n=0} (n+1)^2 (P_1^{n} - n^2 P_1^n)\\
+                          & = k_p \sum_{n=0} (n+1)^2 P_1^{n} - n^2 P_1^n\\
                           & = k_p \sum_{n=0} (2n+1)P_1^{n}\\
                           & = k_p (2 \sum_{n=0}nP_1^{n} + \sum_{n=0}P_1^{n})\\
-                          & = k_p (2 \langle n \rangle) + P_1(t))
+                          & = k_p (2 \langle n \rangle + P_1(t))
 \end{aligned}
 \end{equation*}
 
-By using the expression for $\langle n \rangle$ in equation 3 we can integrate this obtain $\langle n^2 \rangle$
+By using the expression for $\langle n \rangle$ in equation 3 we can integrate to obtain $\langle n^2 \rangle$
 
 \begin{equation}
 \begin{aligned}
-\langle n^2 \rangle & = k_p \frac{x}{1+x}t^2 + n_0t + \frac{k_p \Delta}{r^2}(rt+e^{-rt}) + \langle n \rangle.
+\langle n^2 \rangle & = {k_p}^2 \frac{x}{1+x}t^2 + 2k_pn_0t + 2\frac{{k_p}^2 \Delta_1}{r^2}(rt -1 + e^{-rt}) + \langle n \rangle.
 \end{aligned}
 \end{equation}
 
@@ -83,8 +83,20 @@ It is straightforward at this point to combine equations 3 and 4 to obtain the v
 \begin{equation}
 \begin{aligned}
 Var(n) & = \langle n^2 \rangle - {\langle n \rangle}^2\\
-	   & = k_p \frac{x}{1+x}t^2 + n_0t + \frac{k_p \Delta}{r^2}(rt+e^{-rt}) + \langle n \rangle - {\langle n \rangle}^2
+	   & = k_p \frac{x}{1+x}t^2 + 2k_pn_0t + \frac{2k_p \Delta_1}{r^2}(rt-1+e^{-rt}) + \langle n \rangle \\
+	   & \qquad - {\langle n \rangle}^2
 \end{aligned}
 \end{equation}
+
+If $\Delta_1 = P_1(0) - P_1^{ss} = 0$ and $n_0$=0
+
+\begin{equation}
+\begin{aligned}
+Var(n) &  = {k_p}^2 \frac{x}{1+x}t^2 + {k_p} \frac{x}{1+x}t - {k_p}^2 \frac{x^2}{(1+x)^2}t^2 \\
+		& = {k_p}^2\frac{x}{(1+x)^2}t^2 + k_p\frac{x}{1+x}t \\
+		& = k_p \frac{x}{1+x}t(k_p\frac{1}{1+x}t + 1)
+\end{aligned}
+\end{equation}
+
 
 
